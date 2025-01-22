@@ -1,24 +1,36 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { fetchDogs } from "./utils/helpers";
+import { Box } from "@mui/material";
+import LoginPage from "./components/LoginPage";
+import DogsPage from "./components/DogsPage";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [loggedIn, setLoggedIn] = useState<boolean>(false);
+  const [initialDogIds, setInitialDogIds] = useState([]);
+
+  useEffect(() => {
+    const checkIfLoggedIn = async () => {
+      const resp = await fetchDogs();
+      if (resp.status === 200) {
+        setLoggedIn(true);
+        const data = await resp.json();
+        setInitialDogIds(data.resultIds);
+      }
+    };
+    checkIfLoggedIn();
+  }, []);
 
   return (
-    <>
-      <div>hi</div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <Box
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: "100vh",
+      }}
+    >
+      {loggedIn ? <DogsPage initialDogIds={initialDogIds} /> : <LoginPage />}
+    </Box>
   );
 }
 

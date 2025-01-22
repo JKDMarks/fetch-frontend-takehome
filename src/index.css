@@ -1,0 +1,33 @@
+html,
+body {
+  margin: 0;
+}
+
+#login-form {
+  padding: 30px;
+  border: 1px solid black;
+  border-radius: 5px;
+  justify-content: space-between;
+
+  & > *:not(:last-child) {
+    margin-bottom: 10px;
+  }
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.cropped-img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  object-position: 25% 25%;
+}
